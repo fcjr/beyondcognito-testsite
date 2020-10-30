@@ -29,20 +29,35 @@
   margin-left: 0.5rem;
 }
 
+.loading {
+  color: orange;
+  font-size: 3rem;
+}
+
+.yes {
+  color: green;
+  font-size: 3rem;
+}
+
+.no {
+  color: red;
+  font-size: 3rem;
+}
+
 .footer a {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.title a {
-  color: #0070f3;
+.main a {
+  color: #00aef0;
   text-decoration: none;
 }
 
-.title a:hover,
-.title a:focus,
-.title a:active {
+.main a:hover,
+.main a:focus,
+.main a:active {
   text-decoration: underline;
 }
 
@@ -50,6 +65,11 @@
   margin: 0;
   line-height: 1.15;
   font-size: 4rem;
+}
+
+.titleName {
+  color: #00aef0;
+  text-decoration: underline;
 }
 
 .title,
@@ -65,7 +85,8 @@
 .code {
   background: #fafafa;
   border-radius: 5px;
-  padding: 0.75rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
   font-size: 1.1rem;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
@@ -73,15 +94,16 @@
 
 .grid {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 1000px;
   margin-top: 3rem;
 }
 
 .card {
   margin: 1rem;
+  min-width: 600px;
+  width: 600px;
   flex-basis: 45%;
   padding: 1.5rem;
   text-align: left;
@@ -95,13 +117,13 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  color:#00aef0;
+  border-color: #00aef0;
 }
 
 .card h3 {
   margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .card p {
@@ -111,7 +133,7 @@
 }
 
 .logo {
-  height: 1em;
+  height: 2em;
 }
 
 @media (max-width: 600px) {

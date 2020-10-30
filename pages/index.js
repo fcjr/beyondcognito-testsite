@@ -1,65 +1,99 @@
+import React from 'react'
+
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+class Home extends React.Component {
+  constructor(props) {
+		super(props);
+		this.state = {
+      loaded: false,
+      working: false,
+      sentHeaders: {
+        'X-Client-Data': 'test'
+      },
+      recievedHeaders: {}
+    }
+  }
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+  componentDidMount() {
+    const { sentHeaders } = this.state
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+    const req = new Request('api/echoheaders', {
+      method: 'GET',
+      headers: sentHeaders,
+    });
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+    fetch(req)
+      .then(response => response.json())
+      .then(data => {
+         console.log('Headers:', data.headers);
+         this.setState({ loaded: true, working: data.headers && !data.headers['x-client-data'], recievedHeaders: data.headers || {} })
+      })
+  }
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+  render() {
+    const { loaded, working, sentHeaders, recievedHeaders } = this.state
+    return (
+      <div className={styles.container}>
+        <Head>
+          <title>Ghostery - Is BeyondCognito working?</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+        <main className={styles.main}>
+          <h1 className={styles.title}>
+            Is <span className={styles.titleName}>BeyondCognito</span> working?
+          </h1>
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
+          {!loaded && (
+            <p className={styles.loading}>
+            loading...
             </p>
+          )}
+          {loaded && working && (
+            <p className={styles.yes}>
+            Yes!
+            </p>
+          )}
+          {loaded && !working && (
+            <p className={styles.no}>
+              No
+            </p>
+          )}
+          <a href="https://www.ghostery.com/midnight/">Learn More</a>
+          <div className={styles.grid}>
+            <div className={styles.card}>
+              <h3>Headers Sent:</h3>
+              <div className={styles.code}>
+                  {JSON.stringify(sentHeaders, null, "\t")}
+              </div>
+            </div>
+            <div className={styles.card}>
+              <h3>Headers Recieved:</h3>
+              <div className={styles.code}>
+              {loaded
+                ? JSON.stringify(recievedHeaders, null, "\t")
+                : 'loading...'
+              }
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer className={styles.footer}>
+          <a
+            href="https://ghostery.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Made with 💖 by{' '}
+            <img src="/ghostery.svg" alt="Ghostery Logo" className={styles.logo} />
           </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+        </footer>
+      </div>
+    )
+  }
 }
+
+
+export default Home
