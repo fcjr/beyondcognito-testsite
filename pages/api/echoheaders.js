@@ -2,5 +2,6 @@
 
 export default (req, res) => {
   res.statusCode = 200
+  res.setHeader("cache-control", "no-store")
   res.json({ headers: req.headers })
 }
