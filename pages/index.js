@@ -27,7 +27,6 @@ class Home extends React.Component {
     fetch(req)
       .then(response => response.json())
       .then(data => {
-         console.log('Headers:', data.headers);
          this.setState({ loaded: true, working: data.headers && !data.headers['x-client-data'], recievedHeaders: data.headers || {} })
       })
   }
